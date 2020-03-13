@@ -247,6 +247,9 @@ public class SimInfoCollector extends BaseDeviceInfoCollector {
             mSubscriptionManager.getActiveSubscriptionInfoCountMax();//手机SIM卡数
             mSubscriptionManager.getActiveSubscriptionInfoCount();//手机使用的SIM卡数
             List<SubscriptionInfo> activeSubscriptionInfoList = mSubscriptionManager.getActiveSubscriptionInfoList();//手机SIM卡信息
+            if (activeSubscriptionInfoList == null) {
+                return;
+            }
             for (SubscriptionInfo subscriptionInfo : activeSubscriptionInfoList
                     ) {
                 mSimIDs.add(subscriptionInfo.getSubscriptionId() + "");
