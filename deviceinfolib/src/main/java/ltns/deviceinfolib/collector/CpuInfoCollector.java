@@ -411,7 +411,7 @@ public class CpuInfoCollector extends BaseDeviceInfoCollector {
                 }
             }
 
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -430,10 +430,13 @@ public class CpuInfoCollector extends BaseDeviceInfoCollector {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        long totalCpu = Long.parseLong(cpuInfos[2])
-                + Long.parseLong(cpuInfos[3]) + Long.parseLong(cpuInfos[4])
-                + Long.parseLong(cpuInfos[6]) + Long.parseLong(cpuInfos[5])
-                + Long.parseLong(cpuInfos[7]) + Long.parseLong(cpuInfos[8]);
+        long totalCpu = 0;
+        if (cpuInfos != null) {
+            totalCpu = Long.parseLong(cpuInfos[2])
+                    + Long.parseLong(cpuInfos[3]) + Long.parseLong(cpuInfos[4])
+                    + Long.parseLong(cpuInfos[6]) + Long.parseLong(cpuInfos[5])
+                    + Long.parseLong(cpuInfos[7]) + Long.parseLong(cpuInfos[8]);
+        }
         return totalCpu;
     }
 
