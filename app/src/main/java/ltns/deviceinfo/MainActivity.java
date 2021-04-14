@@ -1,5 +1,7 @@
 package ltns.deviceinfo;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -60,12 +62,25 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "采集完成", Toast.LENGTH_SHORT).show();
                     outputStr = ((DeviceInfoManager) msg.obj).getDeviceJsonInfo();
 //                    Log.i("--->", outputStr);
-                    tv.setText("Manager的输出Json:\n" + JsonUtils.jsonFormatter(outputStr));
+                    boolean isPad = isPad(getApplicationContext());
+                    tv.setText("是否平板：" + isPad + "\nManager的输出Json:\n" + JsonUtils.jsonFormatter(outputStr));
                     break;
 
             }
         }
     };
+
+    /**
+     * 判断当前设备是手机还是平板，代码来自 Google I/O App for Android
+     *
+     * @param context
+     * @return 平板返回 True，手机返回 False
+     */
+    public static boolean isPad(Context context) {
+        return (context.getResources().getConfiguration().screenLayout
+                & Configuration.SCREENLAYOUT_SIZE_MASK)
+                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
