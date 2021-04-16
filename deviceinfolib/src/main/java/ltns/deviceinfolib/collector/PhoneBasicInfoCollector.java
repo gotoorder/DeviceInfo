@@ -66,20 +66,24 @@ public class PhoneBasicInfoCollector extends BaseDeviceInfoCollector {
 
     @Override
     protected void doCollectAutomatically() {
-        put(ROM, Build.MANUFACTURER);
-        put(CALL_STATE, getCallState());
-        put(MODEL, Build.MODEL);
-        put(SDK, Build.VERSION.RELEASE);
-        put(SDK_INT, Build.VERSION.SDK_INT);
-        put(MAC, getMacAddress());
-        put(IMEI, getDeviceId());
-        put(HARDWARE, Build.HARDWARE);
-        put(RADIO_VERSION, getRadioVer());
-        put(PRODUCT,Build.PRODUCT);
-        put(VERSION,Build.VERSION.RELEASE);
-        put(HOST,Build.HOST);
-        put(BRAND,Build.BRAND);
-        put(DISPLAY,Build.DISPLAY);
+        try{
+            put(ROM, Build.MANUFACTURER);
+            put(CALL_STATE, getCallState());
+            put(MODEL, Build.MODEL);
+            put(SDK, Build.VERSION.RELEASE);
+            put(SDK_INT, Build.VERSION.SDK_INT);
+            put(MAC, getMacAddress());
+            put(IMEI, getDeviceId());
+            put(HARDWARE, Build.HARDWARE);
+            put(RADIO_VERSION, getRadioVer());
+            put(PRODUCT,Build.PRODUCT);
+            put(VERSION,Build.VERSION.RELEASE);
+            put(HOST,Build.HOST);
+            put(BRAND,Build.BRAND);
+            put(DISPLAY,Build.DISPLAY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
