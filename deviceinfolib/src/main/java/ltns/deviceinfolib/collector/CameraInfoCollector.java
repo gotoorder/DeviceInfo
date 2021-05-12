@@ -110,37 +110,40 @@ public class CameraInfoCollector extends BaseDeviceInfoCollector {
 
     @Override
     protected void doCollectAutomatically() {
-        cameraCount = Camera.getNumberOfCameras();
-        CameraBean mCamera;
-        CameraBean2 camera;
-        Camera.CameraInfo cameraInfo;
-        for (int i = 0; i < cameraCount; i++) {
-            Camera c = Camera.open(i);
-            cameraInfo = new Camera.CameraInfo();
-            Camera.getCameraInfo(i, cameraInfo);
-            if (onlyNeedNormalInfo) {
-                camera = new CameraBean2();
-                List<Camera.Size> mSize = c.getParameters().getSupportedPictureSizes();
-                if (mSize.size() != 0)
-                    camera.setMaxPictureSize(mSize.get(0).height + "*" + mSize.get(0).width);
-                camera.setCameraInfo(cameraInfo);
-                cameras.add(camera);
-            } else {
-                mCamera = new CameraBean();
-                mCamera.setCameraInfo(cameraInfo);
-                mCamera.setParameters(c.getParameters());
-                mCameras.add(mCamera);
+        try {
+            cameraCount = Camera.getNumberOfCameras();
+            CameraBean mCamera;
+            CameraBean2 camera;
+            Camera.CameraInfo cameraInfo;
+            for (int i = 0; i < cameraCount; i++) {
+                Camera c = Camera.open(i);
+                cameraInfo = new Camera.CameraInfo();
+                Camera.getCameraInfo(i, cameraInfo);
+                if (onlyNeedNormalInfo) {
+                    camera = new CameraBean2();
+                    List<Camera.Size> mSize = c.getParameters().getSupportedPictureSizes();
+                    if (mSize.size() != 0)
+                        camera.setMaxPictureSize(mSize.get(0).height + "*" + mSize.get(0).width);
+                    camera.setCameraInfo(cameraInfo);
+                    cameras.add(camera);
+                } else {
+                    mCamera = new CameraBean();
+                    mCamera.setCameraInfo(cameraInfo);
+                    mCamera.setParameters(c.getParameters());
+                    mCameras.add(mCamera);
+                }
+                c.stopPreview();
+                c.release();
+                c = null;
             }
-            c.stopPreview();
-            c.release();
-            c = null;
-        }
-        if (onlyNeedNormalInfo) {
-            put(CAMERA_COUNT, cameras.size());
-            put(CAMERAS, cameras);
-        } else {
-            put(CAMERA_COUNT, mCameras.size());
-            put(CAMERAS, mCameras);
+            if (onlyNeedNormalInfo) {
+                put(CAMERA_COUNT, cameras.size());
+                put(CAMERAS, cameras);
+            } else {
+                put(CAMERA_COUNT, mCameras.size());
+                put(CAMERAS, mCameras);
+            }
+        } catch (Exception ignored) {
         }
     }
 
